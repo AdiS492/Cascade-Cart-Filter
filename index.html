@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CASCADE Plus Order Basket Prototype</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <img class="brand-logo" src="logo.png" alt="Cascade Plus" />
+        </div>
+        <div class="notice">The brand name has changed and there is more on the way</div>
+        <button class="profile-button" type="button">HI, DUMMY1</button>
+      </header>
+
+      <nav class="main-nav" aria-label="Primary">
+        <button type="button" class="nav-item active" data-action="nav"><span class="nav-icon">&#8962;</span>Dashboard</button>
+        <button type="button" class="nav-item selected" data-action="nav"><span class="nav-icon">&#128722;</span>Order Pad</button>
+        <button type="button" class="nav-item" data-action="nav"><span class="nav-icon">&#9638;</span>Order History</button>
+        <button type="button" class="nav-item" data-action="nav"><span class="nav-icon">&#10070;</span>Out Of Stock</button>
+        <button type="button" class="nav-item" data-action="nav"><span class="nav-icon">&#8962;</span>Report</button>
+        <button type="button" class="nav-item" data-action="nav"><span class="nav-icon">&#9757;</span>Help</button>
+      </nav>
+
+      <main class="workspace">
+        <div class="tab-row">
+          <button type="button" class="tab">Order Pad</button>
+          <button type="button" class="tab active">Pending Order</button>
+          <a class="quick-add-trigger" id="quickAddToggle" href="#" role="button" aria-expanded="true" aria-controls="quickAddContent" title="Hide Panel" aria-label="Hide Panel">
+            <span class="quick-add-label" id="quickAddText">- Hide Add Items</span>
+            <i class="chevron down icon" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div id="quickAddContent" class="quick-add-content">
+          <section class="panel order-entry product-entry-card" aria-label="Product search and upload order">
+            <div class="entry-stack">
+              <form class="quick-search" id="quickAddForm">
+                <label>
+                  <span>Search</span>
+                  <input id="quickProduct" type="text" placeholder="Type product name here." autocomplete="off" />
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input id="quickQty" type="number" min="1" placeholder="Enter Quantity" />
+                </label>
+                <button class="icon-button green add-button" type="submit" title="Add to basket" aria-label="Add to basket">
+                  <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </form>
+
+              <div class="upload-card upload-inline" id="uploadDrop">
+                <span class="upload-title">Upload Order</span>
+                <div class="drop-zone">
+                  <input id="uploadInput" type="file" accept=".csv,.xls" />
+                  <span id="uploadDropText">&#9729; Upload .xls/.csv file</span>
+                  <button type="button" class="small-icon" id="browseUpload">Choose</button>
+                </div>
+                <div class="upload-actions">
+                  <button type="button" id="downloadTemplate" title="Download Template">Download</button>
+                  <button type="button" id="uploadButton">Upload</button>
+                </div>
+                <p id="uploadValidation" hidden>Accepted: .xls, .csv</p>
+                <div class="upload-progress" hidden>
+                  <span id="uploadStep">Validating file</span>
+                  <div><i id="uploadBar"></i></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="basket-section basket-card" aria-label="Order basket">
+          <h1>Order Basket</h1>
+
+          <div class="basket-toolbar">
+            <button class="cart-button" type="button" title="Basket actions" aria-label="Basket actions"><span id="cartCount">0</span><span class="cart-button-icon"><i class="fa fa-cart-plus" aria-hidden="true"></i></span></button>
+
+            <div class="search-wrap">
+              <input id="basketSearch" type="search" placeholder="Search PIP Code/Description" autocomplete="off" />
+              <div class="suggestions" id="suggestions" hidden></div>
+            </div>
+            <button class="icon-button teal" id="basketSearchButton" type="button" title="Search basket">&#128269;</button>
+            <button class="icon-button dark" id="refreshButton" type="button" title="Refresh supplier prices">&#8635;</button>
+
+            <div class="sort-anchor">
+              <button class="advanced-button" id="advancedSortButton" type="button" aria-expanded="false">
+                <span class="sort-main">↕ Sort</span>
+                <span class="sort-sub">Advanced</span>
+                <span class="chevron" aria-hidden="true"></span>
+              </button>
+              <span class="active-sort-badge" id="activeSortBadge" hidden></span>
+              <div class="sort-panel" id="sortPanel" hidden>
+                <div class="sort-panel-arrow"></div>
+                <div class="sort-title">
+                  <h2>Sort By</h2>
+                </div>
+                <label class="radio-row">
+                  <input type="radio" name="sortType" value="unknown" />
+                  <span>Unknown Product Description</span>
+                </label>
+                <label class="radio-row">
+                  <input type="radio" name="sortType" value="tariff" />
+                  <span>Above Drug Tariff</span>
+                </label>
+                <label class="radio-row selected">
+                  <input type="radio" name="sortType" value="supplier" checked />
+                  <span>Selected Supplier Price</span>
+                </label>
+                <div class="direction-toggle" id="directionToggle">
+                  <button type="button" class="active" data-direction="lowest">Low-High</button>
+                  <button type="button" data-direction="highest">High-Low</button>
+                </div>
+                <button type="button" class="reset-sort" id="resetSort">Reset All</button>
+              </div>
+            </div>
+
+            <span class="toolbar-spacer"></span>
+            <button class="primary-action" id="placeOrderButton" type="button">&#9873; Place Order</button>
+            <button class="danger-action" id="deleteButton" type="button">&#10006; Delete</button>
+          </div>
+
+          <div class="table-shell">
+            <div class="sort-status" id="sortStatus" hidden>
+              <span class="spinner"></span>
+              <strong>Sorting basket</strong>
+            </div>
+            <table class="basket-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="selectAll" aria-label="Select all basket rows" /></th>
+                  <th>Action</th>
+                  <th class="sortable-header description-header" data-header-sort="description" tabindex="0"><span>Product Description</span><span class="sort-indicator" data-sort-icon="description">↕</span></th>
+                  <th>PIP Code</th>
+                  <th class="sortable-header compact-header quantity-header" data-header-sort="quantity" tabindex="0"><span>Req. Qty</span><span class="sort-indicator" data-sort-icon="quantity">↕</span></th>
+                  <th class="sortable-header compact-header tariff-header" data-header-sort="tariff" tabindex="0"><span>Drug tariff</span><span class="sort-indicator" data-sort-icon="tariff">↕</span></th>
+                  <th>AAH</th>
+                  <th>Alliance</th>
+                  <th>B&amp;S</th>
+                  <th>Ethigen</th>
+                  <th>OTCD</th>
+                  <th>Phoenix</th>
+                  <th>Trident</th>
+                  <th>Lexon</th>
+                </tr>
+              </thead>
+              <tbody id="basketBody"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6">Total</td>
+                  <td id="totalAAH">0</td>
+                  <td id="totalAlliance">0</td>
+                  <td id="totalBS">0</td>
+                  <td id="totalEthigen">0</td>
+                  <td id="totalOTCD">0</td>
+                  <td id="totalPhoenix">0</td>
+                  <td id="totalTrident">0</td>
+                  <td id="totalLexon">0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <dialog id="logicModal" class="modal">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close">Close</button>
+      <h2>Sort Logic</h2>
+      <p id="logicSummary">Selected Supplier Price, Low-High</p>
+      <h3>Sort Formula</h3>
+      <ol>
+        <li>Read the selected supplier price for each basket item.</li>
+        <li>Compare the values against all visible basket items.</li>
+        <li>Reorder the basket using the chosen direction.</li>
+        <li>Refresh supplier totals and highlight moved rows.</li>
+      </ol>
+      <table class="logic-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Supplier Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="logic-row"><td>Ibuprofen 200mg tabs</td><td>3.20</td></tr>
+          <tr class="logic-row"><td>Paracetamol 500mg tabs</td><td>5.80</td></tr>
+          <tr class="logic-row"><td>Amoxicillin 500mg caps</td><td>9.10</td></tr>
+        </tbody>
+      </table>
+    </dialog>
+
+    <dialog id="orderModal" class="modal order-modal">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close">Close</button>
+      <h2>Confirm Order</h2>
+      <div class="summary-grid">
+        <div><span>Total Products</span><strong id="summaryProducts">0</strong></div>
+        <div><span>Selected Suppliers</span><strong id="summarySuppliers">0</strong></div>
+        <div><span>Total Value</span><strong id="summaryValue">0.00</strong></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary-action" data-close-modal>Cancel</button>
+        <button type="button" class="primary-action" id="confirmOrder">Confirm Order</button>
+      </div>
+    </dialog>
+
+    <dialog id="successModal" class="modal success-modal">
+      <div class="success-mark" aria-hidden="true">OK</div>
+      <h2>Order Submitted</h2>
+      <p id="successReference">Reference ORD-2026-005487</p>
+      <button type="button" class="primary-action" data-close-modal>Done</button>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>

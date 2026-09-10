@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" role="img" aria-labelledby="title">
+  <title>Cascade Plus</title>
+  <rect width="760" height="280" fill="none"/>
+  <g transform="translate(284 6)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M116 8h56c36 0 58 23 58 59v55H177c-68 0-126 33-151 84H-77c-36 0-59-23-59-59v-28c0-36 23-59 59-59H48V67c0-36 32-59 68-59Z" stroke="#00a86b" stroke-width="22"/>
+    <path d="M129 26h43c25 0 40 16 40 41v36h-35c-81 0-147 52-147 133v34H-77c-25 0-40-15-40-40v-28c0-25 15-40 40-40H69V67c0-25 35-41 60-41Z" stroke="#dfe7e7" stroke-width="8"/>
+    <path d="M104 270v-55h53c68 0 126-33 151-84h103c36 0 59 23 59 59v28c0 36-23 59-59 59H286v53c0 36-23 59-59 59h-64c-36 0-59-23-59-59v-60Z" transform="translate(-24 -70)" stroke="#35b94a" stroke-width="22"/>
+    <path d="M122 252v-36h35c81 0 147-52 147-133v-34h107c25 0 40 15 40 40v28c0 25-15 40-40 40H266v95c0 25-16 41-41 41h-62c-25 0-41-16-41-41Z" transform="translate(-24 -70)" stroke="#dfe7e7" stroke-width="8"/>
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif" font-weight="900">
+    <text x="0" y="246" font-size="84" fill="#00a86b">Cascade</text>
+    <text x="500" y="246" font-size="84" fill="#35b94a">Plus</text>
+    <text x="8" y="256" font-size="84" fill="#253238" opacity=".22">Cascade</text>
+    <text x="508" y="256" font-size="84" fill="#253238" opacity=".22">Plus</text>
+  </g>
+</svg>
